@@ -12,6 +12,34 @@
       tailwind.config = {
         theme: {
           extend: {
+            colors: {
+              emerald: {
+                50: '#f0fdf4',
+                100: '#dcfce7',
+                200: '#bbf7d0',
+                300: '#86efac',
+                400: '#4ade80',
+                500: '#22c55e',
+                600: '#16a34a',
+                700: '#15803d',
+                800: '#166534',
+                900: '#14532d',
+                950: '#052e16',
+              },
+              orange: {
+                50: '#eff6ff',
+                100: '#dbeafe',
+                200: '#bfdbfe',
+                300: '#93c5fd',
+                400: '#60a5fa',
+                500: '#3b82f6',
+                600: '#2563eb',
+                700: '#1d4ed8',
+                800: '#1e40af',
+                900: '#1e3a8a',
+                950: '#172554',
+              }
+            },
             fontFamily: {
               sans: ['"Playfair Display"', 'serif'],
               serif: ['"Playfair Display"', 'serif'],
@@ -89,10 +117,10 @@
 
       /* Glowing Effects */
       .text-glow {
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(45, 212, 191, 0.4);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(74, 222, 128, 0.4);
       }
       .glow-container {
-        box-shadow: 0 0 50px rgba(45, 212, 191, 0.2);
+        box-shadow: 0 0 50px rgba(74, 222, 128, 0.2);
       }
 
       /* Background Pulse for Intro */
@@ -127,7 +155,7 @@
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-teal-100 selection:text-teal-900">
+  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-green-100 selection:text-green-900">
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>

@@ -30,27 +30,47 @@ This interleaved multimodal output creates a highly engaging, visual, and emotio
    npm run dev
    ```
 
-### Deploying to Google Cloud Run
+### Deploying to Google Cloud Run via Docker
 
-You can deploy this application directly to Google Cloud Run using the **Google Cloud CLI**. The `gcloud` command-line interface is the core component of the Google Cloud SDK, providing the necessary tools to manage and deploy resources on Google Cloud.
+You can build and deploy this application directly using the provided `Dockerfile`, bypassing the need for local Node/npm builds. 
 
-Run the following command from the root of your project directory to deploy the agent:
+1. **Build and push the container image to Google Container Registry:**
+   ```bash
+   gcloud builds submit --tag gcr.io/[YOUR_PROJECT_ID]/[YOUR_SERVICE_NAME]
+   ```
 
-```bash
-gcloud run deploy [YOUR_SERVICE_NAME] \
-  --source . \
-  --region [YOUR_REGION] \
-  --port [YOUR_PORT] \
-  --allow-unauthenticated \
-  --project [YOUR_PROJECT_ID]
-```
+2. **Deploy the container image to Cloud Run:**
+   ```bash
+   gcloud run deploy [YOUR_SERVICE_NAME] \
+     --image gcr.io/[YOUR_PROJECT_ID]/[YOUR_SERVICE_NAME] \
+     --region [YOUR_REGION] \
+     --port [YOUR_PORT] \
+     --allow-unauthenticated \
+     --project [YOUR_PROJECT_ID]
+   ```
 
 **Deployment Flags Explained:**
-* `--source .`: Deploys the source code from your current working directory using Cloud Buildpacks.
+* `--image ...`: Points Cloud Run to the Docker container image you just built.
 * `--region [YOUR_REGION]`: Specifies the Google Cloud region where your service will be hosted (e.g., `us-central1`).
 * `--port [YOUR_PORT]`: Tells Cloud Run to route external traffic to this port on your container (e.g., `8080`).
 * `--allow-unauthenticated`: Makes the web service publicly accessible over the internet.
 * `--project [YOUR_PROJECT_ID]`: Specifies your target Google Cloud project ID.
+
+### Automating Cloud Deployment (CI/CD)
+
+You can automate this deployment process so that every time you commit code to your Git repository, it automatically builds and deploys to Google Cloud Run using the included `cloudbuild.yaml` file.
+
+**To set up automatic deployments via Google Cloud Build:**
+1. Navigate to the **Cloud Build > Triggers** page in the Google Cloud Console.
+2. Click **Connect Repository** to authorize and link your source code repository (e.g., GitHub or Bitbucket).
+3. Click **Create Trigger**.
+4. Configure the trigger:
+   - **Event:** Select **Push to a branch**.
+   - **Source:** Select your connected repository and your deployment branch (e.g., `main`).
+   - **Configuration:** Select **Cloud Build configuration file (yaml or json)** and ensure it points to `/cloudbuild.yaml`.
+5. Click **Create**. 
+
+Now, every `git push` to your configured branch will automatically trigger a new Docker build and deploy the updated container to Cloud Run!
 
 ## 🧩 App Components & Architecture
 

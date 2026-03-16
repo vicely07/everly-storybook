@@ -77,16 +77,3 @@ export interface MemoryCircle {
   reminders: Reminder[];
   narrative?: BookNarrative; // The generated book content
 }
-
-export interface ChatMessage {
-  id: string;
-  role: 'user' | 'model';
-  text: string;
-  timestamp: Date;
-}
-
-declare global {
-  interface Window {
-    webkitAudioContext: typeof AudioContext;
-  }
-}

@@ -1,4 +1,4 @@
-import { GoogleGenAI, LiveServerMessage, Modality } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import { MemoryCircle, PatientProfile, BookNarrative } from "../types";
 
 // Helper to get API Key from storage
@@ -101,57 +101,80 @@ export const transcribeAudio = async (audioBlob: Blob): Promise<string> => {
     }
 };
 
-// --- CAPTION INTERVIEW FLOW (Gemini 3 Pro) ---
-
-export interface QAPair {
-  q: string;
-  a: string;
-}
-
-export type TurnType = 'question' | 'caption';
-
-export const processCaptionTurn = async (
-  file: File,
-  context: string,
-  history: QAPair[],
-  forceFinal: boolean = false
-): Promise<{ type: TurnType, text: string }> => {
+// --- TTS HELPER ---
+export const generateSpeech = async (text: string): Promise<string | null> => {
     const apiKey = getApiKey();
-    if (!apiKey) return { type: 'caption', text: "API Key missing. Please restart and provide a key." };
+    if (!apiKey) return null;
 
     const ai = new GoogleGenAI({ apiKey });
-    // Using Flash for faster interactive responses
+    const model = 'gemini-2.5-flash-preview-tts';
+
+    try {
+        const response = await ai.models.generateContent({
+            model,
+            contents: [{ parts: [{ text }] }],
+            config: {
+                responseModalities: [Modality.AUDIO],
+                speechConfig: {
+                    voiceConfig: {
+                        prebuiltVoiceConfig: { voiceName: 'Kore' },
+                    },
+                },
+            },
+        });
+
+        const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+        if (base64Audio) {
+            // Convert base64 PCM to WAV
+            const binaryString = window.atob(base64Audio);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            
+            const wavHeader = writeWavHeader(24000, 1, 16, bytes.length);
+            const wavBlob = new Blob([wavHeader, bytes], { type: 'audio/wav' });
+            
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result as string);
+                reader.readAsDataURL(wavBlob);
+            });
+        }
+        return null;
+    } catch (e) {
+        console.error("Speech generation error", e);
+        return null;
+    }
+};
+
+// --- CAPTION GENERATION (Gemini 3 Flash) ---
+
+export const generateCaptionFromDetails = async (
+  file: File,
+  context: string,
+  year: string,
+  details: string
+): Promise<string> => {
+    const apiKey = getApiKey();
+    if (!apiKey) return "API Key missing. Please restart and provide a key.";
+
+    const ai = new GoogleGenAI({ apiKey });
     const model = 'gemini-3-flash-preview';
 
     try {
         const filePart = await fileToPart(file);
         
-        const historyText = history.length > 0 
-            ? history.map((h, i) => `Turn ${i+1}:\nInterviewer: ${h.q}\nCaregiver: ${h.a}`).join('\n\n')
-            : "No conversation yet.";
-
         let prompt = `
           You are a compassionate biographer helping a caregiver create a memory book for a dementia patient named ${context}. 
-          Analyze the uploaded media and the conversation history below to help write a heartwarming, specific caption.
+          Analyze the uploaded media and the provided details to write a heartwarming, specific caption.
           
-          Conversation History:
-          ${historyText}
+          Year: ${year}
+          Details: ${details}
           
-          Your Goal is to gather these key details if they aren't clear yet:
-          1. WHO is in the photo? (Names, relations)
-          2. WHERE/WHEN was it taken?
-          3. WHAT is the occasion or activity?
-          4. HOW did it feel? (Emotions, deeper meaning)
+          COMMAND: Write the best possible heartwarming 2-sentence story-style caption based on the image, the year, and the details provided. Return ONLY the caption text.
         `;
-
-        if (forceFinal) {
-            prompt += `\n\nCOMMAND: The user wants to finish now. Write the best possible heartwarming 2-sentence story-style caption based on the image and the details provided so far. Return JSON { "type": "caption", "text": "..." }`;
-        } else {
-            prompt += `\n\nCOMMAND:
-            - If you are missing important details (Who, Where, Occasion, Meaning) and history has fewer than 3 turns, ask the ONE most important short, friendly follow-up question to get that detail. Return JSON { "type": "question", "text": "..." }
-            - If you have sufficient details OR history has 3+ turns, write the final heartwarming 2-sentence story-style caption. Return JSON { "type": "caption", "text": "..." }
-            `;
-        }
 
         const result = await ai.models.generateContent({
             model,
@@ -160,24 +183,14 @@ export const processCaptionTurn = async (
                     filePart,
                     { text: prompt }
                 ]
-            },
-            config: { responseMimeType: "application/json" }
+            }
         });
 
-        let jsonText = result.text || "{}";
-        // Strip out markdown code blocks if present
-        jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-        const parsed = JSON.parse(jsonText);
-        
-        return {
-            type: parsed.type || 'question',
-            text: parsed.text || "What would you like to say about this?"
-        };
+        return result.text || "A beautiful memory.";
 
     } catch (e) {
-        console.error("Caption turn error", e);
-        // Fallback
-        return { type: 'caption', text: history.length > 0 ? history[history.length-1].a : "" };
+        console.error("Caption generation error", e);
+        return details || "A beautiful memory.";
     }
 };
 

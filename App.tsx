@@ -299,7 +299,7 @@ export default function App() {
                <div className="text-center mb-12 z-10 flex flex-col items-center max-w-lg w-full transition-all duration-500">
                    <div className="mb-6 animate-pulse-slow"><EverlyBird size={200} /></div>
                    {/* Solid Dark Green, Thick Bold Font (font-black) */}
-                   <h1 className="text-6xl font-black text-emerald-900 mb-4 tracking-tighter drop-shadow-sm pb-2">Everly</h1>
+                   <h1 className="text-6xl font-black text-emerald-900 mb-4 tracking-tighter drop-shadow-sm pb-2">Everly Storybook</h1>
                    <p className="text-2xl text-slate-500 font-light mb-10">An AI Memory Companion for Dementia Care</p>
                    
                    <div className="flex flex-col gap-4 w-full max-w-xs">

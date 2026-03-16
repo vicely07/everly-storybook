@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { MemoryCircle, ChatMessage, Memory, FamilyMember, PatientProfile, BookNarrative, Reminder } from '../types';
-import { connectToLiveSession, generateSimpleTTS } from '../services/geminiService';
+import { MemoryCircle, Memory, FamilyMember, PatientProfile, BookNarrative, Reminder } from '../types';
+import { generateSimpleTTS } from '../services/geminiService';
 import { EverlyBird } from './EverlyBird';
 import { ShieldCheck, Heart, Mic, Video, Sparkles, Disc, PauseCircle, PlayCircle, Loader2, RefreshCw, MapPin, User, Calendar, Clock, Activity, Pill, GlassWater, Search, Bell, Volume2, ArrowLeft, Phone, AlertCircle, CheckCircle2, Circle, ChevronLeft, ChevronRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -25,8 +25,8 @@ const PaperTexture = () => (
 
 const CalmBackground = () => (
     <div className="absolute inset-0 bg-[#020617] overflow-hidden">
-        {/* Deep Green/Space Gradient Base */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#022c22] via-[#020617] to-[#000000] opacity-100 animate-glow-pulse" />
+        {/* Deep Orange/Space Gradient Base */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#431407] via-[#020617] to-[#000000] opacity-100 animate-glow-pulse" />
         
         {/* Glowing Orbs - Deep Emerald & Teal */}
         <div className="absolute top-[-20%] left-[-10%] w-[90vw] h-[90vw] bg-emerald-900/40 rounded-full blur-[100px] animate-float-slow pointer-events-none mix-blend-screen" />
@@ -286,13 +286,8 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
   // Time State
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Chat / Interruption State
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-  const [isProcessingResume, setIsProcessingResume] = useState(false);
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const bgMusicRef = useRef<HTMLAudioElement | null>(null);
-  const liveSessionRef = useRef<any>(null);
   const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mountedRef = useRef(true);
   
@@ -497,15 +492,9 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
   // UPDATED: Now supports reading a specific reminder immediately OR all reminders
   // Removes overlay triggering (setIsPaused) to ensure non-blocking UI
   const handleReadReminders = async (specificReminderText?: string) => {
-      // 1. Stop any current audio or live session
+      // 1. Stop any current audio
       if (audioRef.current) audioRef.current.pause();
       if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
-      
-      if (liveSessionRef.current) {
-          liveSessionRef.current.close();
-          liveSessionRef.current = null;
-      }
-      setChatMessages([]);
 
       // 2. Halt book progression but DO NOT show full overlay
       // Just mark as reading so the "Speaker" icon can animate
@@ -759,8 +748,8 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
     setPageIndex(prev => prev + 2);
   };
 
-  // --- PAUSE & CHAT LOGIC (Manual Trigger) ---
-  const handlePauseAndChat = async () => {
+  // --- PAUSE LOGIC (Manual Trigger) ---
+  const handlePause = async () => {
       if (isPausedRef.current) return;
       
       console.log("Manual Pause Triggered");
@@ -770,59 +759,9 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
       
       if (audioRef.current) audioRef.current.pause();
       if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
-
-      // Start Gemini Live Conversation
-      const systemInstruction = `
-        You are Everly, a gentle companion. The user has just paused their memory storybook.
-        
-        Current Context: They were looking at pages about: 
-        Left: ${JSON.stringify(pages[pageIndex]?.data || {})}
-        Right: ${JSON.stringify(pages[pageIndex + 1]?.data || {})}
-        
-        RULES:
-        1. Acknowledge the pause warmly. "I'm listening. Do you have a question about this memory?"
-        2. Answer their question simply.
-        3. If they say "Continue", "Go on", "Next", or "Read more", say "Okay, resuming the story."
-        4. If they say "Play again" or "Restart", confirm you will restart the book.
-        5. If they say "Read reminders" or ask about their schedule, confirm you will read their reminders.
-      `;
-
-      liveSessionRef.current = await connectToLiveSession(
-          memoryCircle, 
-          (text, isUser) => {
-               setChatMessages(prev => [...prev, { id: Date.now().toString(), role: isUser ? 'user' : 'model', text, timestamp: new Date() }]);
-               
-               if (isUser) {
-                   const lower = text.toLowerCase();
-                   if (lower.includes('continue') || lower.includes('go on') || lower.includes('resume') || lower.includes('next') || lower.includes('keep going')) {
-                       setIsProcessingResume(true);
-                       setTimeout(() => handleResume(), 1500); 
-                   }
-                   if (lower.includes('play again') || lower.includes('restart') || lower.includes('start over')) {
-                       // Close live session and trigger replay
-                       if (liveSessionRef.current) { liveSessionRef.current.close(); liveSessionRef.current = null; }
-                       handleReplay();
-                   }
-                   if (lower.includes('read reminder') || lower.includes('schedule') || lower.includes('to do')) {
-                        // Close live session and trigger reminder reading to use the specific TTS script
-                        if (liveSessionRef.current) { liveSessionRef.current.close(); liveSessionRef.current = null; }
-                        // Hide overlay and read reminders
-                        setIsPaused(false);
-                        handleReadReminders();
-                   }
-               }
-          }, 
-          systemInstruction
-      );
   };
 
   const handleResume = () => {
-      if (liveSessionRef.current) {
-          liveSessionRef.current.close();
-          liveSessionRef.current = null;
-      }
-      setChatMessages([]);
-      setIsProcessingResume(false);
       setIsPaused(false);
       setIsPlaying(true);
   };
@@ -1127,57 +1066,38 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
             {/* --- CONTROLS & VISUAL CUES --- */}
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-2xl px-4 z-40 transition-opacity duration-500 flex flex-col items-center gap-4" style={{ opacity: isPaused ? 0 : 1 }}>
                 
-                {/* LARGE PAUSE / CHAT BUTTON (Updated Design) */}
+                {/* LARGE PAUSE BUTTON */}
                 <button 
-                    onClick={handlePauseAndChat}
+                    onClick={handlePause}
                     className="flex items-center gap-5 bg-white/95 backdrop-blur-xl px-8 py-5 rounded-3xl shadow-xl border border-teal-100 ring-4 ring-teal-500/10 transform transition-transform active:scale-95 hover:scale-105 cursor-pointer w-full max-w-md group"
                 >
                    <div className="relative flex items-center justify-center">
                        <div className="bg-teal-50 p-3 rounded-full group-hover:bg-teal-100 transition-colors">
-                           <Mic className="text-teal-600 relative z-10" size={32} />
+                           <PauseCircle className="text-teal-600 relative z-10" size={32} />
                        </div>
                    </div>
                    <div className="flex flex-col text-left">
-                       <span className="text-slate-800 font-bold text-xl leading-none tracking-tight">Touch to Ask Question</span>
-                       <span className="text-slate-500 text-sm font-medium mt-1">Pauses story • Turns on mic</span>
+                       <span className="text-slate-800 font-bold text-xl leading-none tracking-tight">Pause Story</span>
+                       <span className="text-slate-500 text-sm font-medium mt-1">Take a break</span>
                    </div>
                </button>
             </div>
 
-            {/* --- INTERRUPTION OVERLAY (CHAT MODE ONLY) --- */}
+            {/* --- INTERRUPTION OVERLAY (PAUSE MODE ONLY) --- */}
             {isPaused && (
                 <div className="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300">
                     <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full m-4 relative overflow-hidden z-50">
                          {/* Background Animation */}
                          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-teal-400 via-emerald-500 to-teal-400 animate-pulse"></div>
                          
-                         {/* Existing Chat UI */}
+                         {/* Existing Pause UI */}
                          <div className="flex flex-col items-center text-center">
                              <div className="mb-6 scale-125">
-                                 <EverlyBird size={120} talking={true} />
+                                 <EverlyBird size={120} talking={false} />
                              </div>
                              
-                             <h3 className="text-2xl font-bold text-slate-800 mb-2">I'm listening...</h3>
-                             <p className="text-slate-500 mb-8">Go ahead, ask about the photo or family.</p>
-                             
-                             {/* REPLACED TRANSCRIPT WITH AUDIO VISUALIZER */}
-                             <div className="w-full bg-slate-50/50 rounded-2xl p-6 flex items-center justify-center border border-slate-100/50 mb-8">
-                                 <div className="flex items-center gap-1.5">
-                                      <div className="w-1.5 h-3 bg-teal-400 rounded-full animate-[pulse_1s_ease-in-out_infinite]"></div>
-                                      <div className="w-1.5 h-8 bg-teal-500 rounded-full animate-[pulse_1.5s_ease-in-out_infinite]"></div>
-                                      <div className="w-1.5 h-6 bg-teal-400 rounded-full animate-[pulse_1.2s_ease-in-out_infinite]"></div>
-                                      <div className="w-1.5 h-10 bg-teal-600 rounded-full animate-[pulse_0.8s_ease-in-out_infinite]"></div>
-                                      <div className="w-1.5 h-6 bg-teal-400 rounded-full animate-[pulse_1.2s_ease-in-out_infinite]"></div>
-                                      <div className="w-1.5 h-8 bg-teal-500 rounded-full animate-[pulse_1.5s_ease-in-out_infinite]"></div>
-                                      <div className="w-1.5 h-3 bg-teal-400 rounded-full animate-[pulse_1s_ease-in-out_infinite]"></div>
-                                  </div>
-                             </div>
-
-                             {isProcessingResume && (
-                                 <div className="flex items-center gap-2 text-teal-600 font-bold animate-pulse">
-                                     <Loader2 className="animate-spin" /> Resuming Story...
-                                 </div>
-                             )}
+                             <h3 className="text-2xl font-bold text-slate-800 mb-2">Story Paused</h3>
+                             <p className="text-slate-500 mb-8">Take all the time you need.</p>
 
                              <button 
                                 onClick={handleResume}
