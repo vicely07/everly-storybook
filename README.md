@@ -30,16 +30,24 @@ This interleaved multimodal output creates a highly engaging, visual, and emotio
    npm run dev
    ```
 
-### Deploying to Google Cloud Run via Docker
+### Manual Deployment to Google Cloud Run
 
-You can build and deploy this application directly using the provided `Dockerfile`, bypassing the need for local Node/npm builds. 
+There are a couple of ways to manually deploy your application using the Google Cloud CLI.
 
-1. **Build and push the container image to Google Container Registry:**
+#### Option A: Using the Cloud Build Configuration (Recommended)
+You can execute the exact deployment pipeline defined in your `cloudbuild.yaml` file directly from your terminal:
+```bash
+gcloud builds submit --config cloudbuild.yaml .
+```
+
+#### Option B: Step-by-Step via Docker
+
+1. **Build and push the container image:**
    ```bash
    gcloud builds submit --tag gcr.io/[YOUR_PROJECT_ID]/[YOUR_SERVICE_NAME]
    ```
 
-2. **Deploy the container image to Cloud Run:**
+2. **Deploy to Cloud Run:**
    ```bash
    gcloud run deploy [YOUR_SERVICE_NAME] \
      --image gcr.io/[YOUR_PROJECT_ID]/[YOUR_SERVICE_NAME] \
