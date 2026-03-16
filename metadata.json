@@ -1,0 +1,9 @@
+{
+  "name": "Everly",
+  "description": "A compassionate AI companion for Alzheimer's patients and a powerful monitoring tool for caregivers. Features calming voice interaction, memory lane video generation, and location safety checks.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera",
+    "geolocation"
+  ]
+}

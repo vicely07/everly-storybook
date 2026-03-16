@@ -1,11 +1,72 @@
-<div align="center">
+# Everly: Multimodal Creative Storyteller for Memories
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Everly is a compassionate, AI-powered application designed to capture, preserve, and narrate the life stories and memories of individuals, particularly those experiencing cognitive decline or dementia. 
 
-  <h1>Built with AI Studio</h2>
+At its core, Everly acts as a **multimodal creative storyteller**, transforming fragmented memories, uploaded photos, and audio recordings into cohesive, heartwarming narratives.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## ✨ Key Feature: Mixed Output Interleaved Generation
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+Everly heavily leverages the Gemini API's advanced multimodal capabilities to produce **mixed output interleaved** narratives. 
 
-</div>
+Instead of generating a standard block of text followed by a single image, Everly synthesizes a rich, storybook-like experience. It prompts the AI to generate poetic text and beautiful, context-aware illustrations (like watercolor paintings of the user's favorite things) that are **seamlessly interleaved together** in a single response stream. 
+
+This interleaved multimodal output creates a highly engaging, visual, and emotional "Digital Memory Book" tailored specifically to the patient's life, loves, and history.
+
+## 🚀 How to Run and Deploy
+
+### Prerequisites
+- Node.js installed locally
+- Google Cloud CLI (`gcloud`) installed and authenticated (Note: The `gcloud` CLI is the primary tool of the Google Cloud SDK)
+- A Gemini API Key
+
+### Local Development
+1. Install the project dependencies:
+   ```bash
+   npm install
+   ```
+2. Set up your environment variables (ensure your Gemini API key is configured).
+3. Start the local development server:
+   ```bash
+   npm run dev
+   ```
+
+### Deploying to Google Cloud Run
+
+You can deploy this application directly to Google Cloud Run using the **Google Cloud CLI**. The `gcloud` command-line interface is the core component of the Google Cloud SDK, providing the necessary tools to manage and deploy resources on Google Cloud.
+
+Run the following command from the root of your project directory to deploy the agent:
+
+```bash
+gcloud run deploy [YOUR_SERVICE_NAME] \
+  --source . \
+  --region [YOUR_REGION] \
+  --port [YOUR_PORT] \
+  --allow-unauthenticated \
+  --project [YOUR_PROJECT_ID]
+```
+
+**Deployment Flags Explained:**
+* `--source .`: Deploys the source code from your current working directory using Cloud Buildpacks.
+* `--region [YOUR_REGION]`: Specifies the Google Cloud region where your service will be hosted (e.g., `us-central1`).
+* `--port [YOUR_PORT]`: Tells Cloud Run to route external traffic to this port on your container (e.g., `8080`).
+* `--allow-unauthenticated`: Makes the web service publicly accessible over the internet.
+* `--project [YOUR_PROJECT_ID]`: Specifies your target Google Cloud project ID.
+
+## 🧩 App Components & Architecture
+
+### The Gemini API Integration
+Everly is powered by the `@google/genai` SDK, utilizing models like `gemini-3-flash-preview` for rapid reasoning and `gemini-2.5-flash-image` for visual synthesis. The application makes complex, multimodal calls to the Gemini API:
+1. **Input Processing:** The app accepts a variety of inputs—text notes, audio recordings (which are transcribed), and uploaded photos.
+2. **Contextual Prompting:** These inputs are bundled together into a rich context window. The system prompts Gemini not just to summarize, but to act as a compassionate storyteller.
+3. **Structured JSON Responses:** To ensure the UI can render the storybook correctly, the Gemini API is instructed to return a structured JSON schema representing the narrative flow.
+
+### Mastering Interleaved Output
+The magic of Everly lies in its **interleaved output**. When the `compileBookNarrative` function is called, the Gemini API doesn't just return a wall of text. It returns an array of "pages" or "blocks" where text and imagery are mixed.
+
+**How it works:**
+1. **Text Generation:** The AI writes a paragraph of the story based on the provided memories.
+2. **Image Prompt Generation:** Alongside the text, the AI generates a highly specific *image prompt* (e.g., "A watercolor painting of a vintage red bicycle leaning against an oak tree").
+3. **Image Synthesis:** The app then calls the `gemini-2.5-flash-image` model using these generated prompts to create the actual illustrations.
+4. **Interleaved Rendering:** The React frontend (`CaregiverMode.tsx` and the Storybook viewer) maps over this data, rendering a text block, followed by its corresponding synthesized image, followed by the next text block. 
+
+This creates a seamless, interleaved reading experience that mimics a real, beautifully illustrated memory book, making the output far more engaging and accessible for the end-user.
