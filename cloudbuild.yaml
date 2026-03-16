@@ -20,8 +20,6 @@ steps:
       - 'gcr.io/$PROJECT_ID/everly-app:$COMMIT_SHA'
       - '--region'
       - 'us-central1'
-      - '--platform'
-      - 'managed'
       - '--allow-unauthenticated'
     id: 'Deploy-to-Cloud-Run'
 

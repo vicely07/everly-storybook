@@ -58,7 +58,7 @@ You can build and deploy this application directly using the provided `Dockerfil
 
 ### Automating Cloud Deployment (CI/CD)
 
-You can automate this deployment process so that every time you commit code to your Git repository, it automatically builds and deploys to Google Cloud Run using the included `cloudbuild.yaml` file.
+This project includes a `cloudbuild.yaml` file, making it incredibly easy to automate deployments using **Google Cloud Build**. This is often the preferred, "Google-native" approach as it seamlessly integrates with Cloud Run without needing to configure external authentication like Workload Identity Federation.
 
 **To set up automatic deployments via Google Cloud Build:**
 1. Navigate to the **Cloud Build > Triggers** page in the Google Cloud Console.
@@ -70,7 +70,7 @@ You can automate this deployment process so that every time you commit code to y
    - **Configuration:** Select **Cloud Build configuration file (yaml or json)** and ensure it points to `/cloudbuild.yaml`.
 5. Click **Create**. 
 
-Now, every `git push` to your configured branch will automatically trigger a new Docker build and deploy the updated container to Cloud Run!
+Now, every `git push` to your configured branch will automatically trigger a new build and deploy the updated container to Cloud Run using Google's native CI/CD pipeline!
 
 ## 🧩 App Components & Architecture
 
