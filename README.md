@@ -83,7 +83,7 @@ Now, every `git push` to your configured branch will automatically trigger a new
 ## 🧩 App Components & Architecture
 
 ### The Gemini API Integration
-Everly is powered by the `@google/genai` SDK, utilizing models like `gemini-3-flash-preview` for rapid reasoning and `gemini-2.5-flash-image` for visual synthesis. The application makes complex, multimodal calls to the Gemini API:
+Everly is powered by the `@google/genai` SDK, utilizing models like `gemini-3-flash-preview` for rapid reasoning and `gemini-3-flash-image` for visual synthesis. The application makes complex, multimodal calls to the Gemini API:
 1. **Input Processing:** The app accepts a variety of inputs—text notes, audio recordings (which are transcribed), and uploaded photos.
 2. **Contextual Prompting:** These inputs are bundled together into a rich context window. The system prompts Gemini not just to summarize, but to act as a compassionate storyteller.
 3. **Structured JSON Responses:** To ensure the UI can render the storybook correctly, the Gemini API is instructed to return a structured JSON schema representing the narrative flow.
@@ -94,7 +94,7 @@ The magic of Everly lies in its **interleaved output**. When the `compileBookNar
 **How it works:**
 1. **Text Generation:** The AI writes a paragraph of the story based on the provided memories.
 2. **Image Prompt Generation:** Alongside the text, the AI generates a highly specific *image prompt* (e.g., "A watercolor painting of a vintage red bicycle leaning against an oak tree").
-3. **Image Synthesis:** The app then calls the `gemini-2.5-flash-image` model using these generated prompts to create the actual illustrations.
+3. **Image Synthesis:** The app then calls the `gemini-3-flash-image` model using these generated prompts to create the actual illustrations.
 4. **Interleaved Rendering:** The React frontend (`CaregiverMode.tsx` and the Storybook viewer) maps over this data, rendering a text block, followed by its corresponding synthesized image, followed by the next text block. 
 
 This creates a seamless, interleaved reading experience that mimics a real, beautifully illustrated memory book, making the output far more engaging and accessible for the end-user.

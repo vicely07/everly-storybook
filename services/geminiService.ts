@@ -107,7 +107,7 @@ export const generateSpeech = async (text: string): Promise<string | null> => {
     if (!apiKey) return null;
 
     const ai = new GoogleGenAI({ apiKey });
-    const model = 'gemini-2.5-flash-preview-tts';
+    const model = 'gemini-3-flash-preview-tts';
 
     try {
         const response = await ai.models.generateContent({
@@ -204,7 +204,7 @@ export const compileBookNarrative = async (circle: MemoryCircle): Promise<BookNa
 
   const ai = new GoogleGenAI({ apiKey });
   const proModel = 'gemini-3-flash-preview'; 
-  const imageModel = 'gemini-2.5-flash-image';
+  const imageModel = 'gemini-3-flash-image';
 
   const familyContext = circle.familyMembers.map(m => `${m.name} (${m.relation}): ${m.note}`).join('; ');
   const memoryContext = circle.memories.map(m => `[${m.timestamp.getFullYear()}] ${m.text}`).join('; ');
@@ -335,8 +335,8 @@ export const generateSimpleTTS = async (text: string): Promise<string | null> =>
     const cleanText = text.replace(/[*#_\[\]`]/g, '').trim();
     
     const ai = new GoogleGenAI({ apiKey });
-    // Note: TTS currently uses gemini-2.5-flash-preview-tts as per guidelines
-    const modelId = 'gemini-2.5-flash-preview-tts';
+    // Note: TTS currently uses gemini-3-flash-preview-tts as per guidelines
+    const modelId = 'gemini-3-flash-preview-tts';
 
     const makeRequest = async (attempt: number = 1): Promise<string | null> => {
         try {
@@ -400,8 +400,8 @@ export const connectToLiveSession = async (
   if (!apiKey) return { close: () => {} };
 
   const ai = new GoogleGenAI({ apiKey });
-  // Note: Live API currently uses gemini-2.5-flash-native-audio-preview-12-2025 as per guidelines
-  const model = 'gemini-2.5-flash-native-audio-preview-12-2025';
+  // Note: Live API currently uses gemini-3-flash-native-audio-preview-12-2025 as per guidelines
+  const model = 'gemini-3-flash-native-audio-preview-12-2025';
 
   const patientName = circle.profile.preferredName || circle.profile.firstName;
 
