@@ -155,7 +155,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, authMode, use
                             onClick={handleGoogleAccountSelect}
                             className="flex items-center gap-4 p-3 rounded-md hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-200 transition-all group"
                         >
-                            <img src="https://ui-avatars.com/api/?name=Caregiver&background=16a34a&color=fff" className="w-10 h-10 rounded-full" alt="User" />
+                            <img src="https://ui-avatars.com/api/?name=Caregiver&background=0f766e&color=fff" className="w-10 h-10 rounded-full" alt="User" />
                             <div className="flex-1">
                                 <p className="text-sm font-medium text-slate-700">sample.caregiver.john@gmail.com</p>
                                 <p className="text-xs text-slate-500">Caregiver Account</p>
@@ -246,13 +246,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, authMode, use
         <div className="h-screen w-screen bg-slate-50 flex flex-col items-center justify-center p-6 relative overflow-hidden">
              {/* Background elements */}
              <div className="absolute top-0 left-0 w-64 h-64 bg-teal-200 rounded-full blur-3xl opacity-20 -translate-x-1/2 -translate-y-1/2" />
-             <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-200 rounded-full blur-3xl opacity-20 translate-x-1/3 translate-y-1/3" />
+             <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-200 rounded-full blur-3xl opacity-20 translate-x-1/3 translate-y-1/3" />
 
              <div className="bg-white p-8 md:p-12 rounded-3xl shadow-2xl border border-slate-100 max-w-md w-full text-center relative z-10 animate-in fade-in zoom-in-95 duration-500">
                  
                  {/* LOGO & BRAND */}
                  <div className="mb-8 flex flex-col items-center justify-center">
-                     <h1 className="text-5xl font-light text-emerald-900 tracking-tight drop-shadow-sm pb-2">Everly</h1>
+                     <h1 className="text-5xl font-light text-teal-900 tracking-tight drop-shadow-sm pb-2">Everly Storybook</h1>
                  </div>
                  
                  {step === 'initial' ? (
@@ -269,12 +269,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, authMode, use
                         {/* Mock ReCAPTCHA Widget */}
                         <div 
                             onClick={handleCaptchaClick}
-                            className={`w-full bg-[#f9f9f9] border ${captchaState === 'verified' ? 'border-green-500' : 'border-[#d3d3d3]'} rounded-md p-3 flex items-center justify-between mb-8 cursor-pointer hover:bg-[#f0f0f0] transition-colors shadow-sm select-none text-left`}
+                            className={`w-full bg-[#f9f9f9] border ${captchaState === 'verified' ? 'border-teal-500' : 'border-[#d3d3d3]'} rounded-md p-3 flex items-center justify-between mb-8 cursor-pointer hover:bg-[#f0f0f0] transition-colors shadow-sm select-none text-left`}
                         >
                             <div className="flex items-center gap-3">
                                 <div className={`w-7 h-7 border-2 rounded-sm flex items-center justify-center bg-white ${captchaState === 'idle' ? 'border-[#c1c1c1]' : 'border-transparent'}`}>
                                     {captchaState === 'loading' && <Loader2 className="w-5 h-5 text-slate-500 animate-spin" />}
-                                    {captchaState === 'verified' && <Check className="w-6 h-6 text-green-600 font-bold" strokeWidth={4} />}
+                                    {captchaState === 'verified' && <Check className="w-6 h-6 text-teal-600 font-bold" strokeWidth={4} />}
                                 </div>
                                 <span className="text-sm font-medium text-slate-700">I'm not a robot</span>
                             </div>

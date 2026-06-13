@@ -293,14 +293,14 @@ export default function App() {
       return (
           <div className="h-screen w-screen bg-slate-50 flex flex-col items-center justify-center p-6 relative overflow-hidden">
                <div className="absolute top-0 left-0 w-64 h-64 bg-teal-200 rounded-full blur-3xl opacity-20 -translate-x-1/2 -translate-y-1/2" />
-               <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-200 rounded-full blur-3xl opacity-20 translate-x-1/3 translate-y-1/3" />
+               <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-200 rounded-full blur-3xl opacity-20 translate-x-1/3 translate-y-1/3" />
                
                {/* CONTENT */}
                <div className="text-center mb-12 z-10 flex flex-col items-center max-w-lg w-full transition-all duration-500">
                    <div className="mb-6 animate-pulse-slow"><EverlyBird size={200} /></div>
                    {/* Solid Dark Green, Thick Bold Font (font-black) */}
-                   <h1 className="text-6xl font-black text-emerald-900 mb-4 tracking-tighter drop-shadow-sm pb-2">Everly Storybook</h1>
-                   <p className="text-2xl text-slate-500 font-light mb-10">An AI Memory Companion for Dementia Care</p>
+                   <h1 className="text-6xl font-black text-teal-900 mb-4 tracking-tighter drop-shadow-sm pb-2">Everly Storybook</h1>
+                   <p className="text-2xl text-slate-500 font-light mb-10">An AI Memory StoryTeller for Dementia Care</p>
                    
                    <div className="flex flex-col gap-4 w-full max-w-xs">
                        <button 
@@ -312,7 +312,7 @@ export default function App() {
                            </div>
                            {/* Sun Glare Overlay - Brighter, Warm Tint, Blend Mode */}
                            {clickedButton === 'signup' && (
-                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-100/90 to-transparent skew-x-[-20deg] w-[200%] h-full animate-glare z-50 pointer-events-none mix-blend-overlay" />
+                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-100/90 to-transparent skew-x-[-20deg] w-[200%] h-full animate-glare z-50 pointer-events-none mix-blend-overlay" />
                            )}
                        </button>
 

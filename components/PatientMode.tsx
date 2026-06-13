@@ -25,11 +25,11 @@ const PaperTexture = () => (
 
 const CalmBackground = () => (
     <div className="absolute inset-0 bg-[#020617] overflow-hidden">
-        {/* Deep Orange/Space Gradient Base */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#431407] via-[#020617] to-[#000000] opacity-100 animate-glow-pulse" />
+        {/* Deep Teal/Space Gradient Base */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#0f766e] via-[#020617] to-[#000000] opacity-100 animate-glow-pulse" />
         
         {/* Glowing Orbs - Deep Emerald & Teal */}
-        <div className="absolute top-[-20%] left-[-10%] w-[90vw] h-[90vw] bg-emerald-900/40 rounded-full blur-[100px] animate-float-slow pointer-events-none mix-blend-screen" />
+        <div className="absolute top-[-20%] left-[-10%] w-[90vw] h-[90vw] bg-teal-900/40 rounded-full blur-[100px] animate-float-slow pointer-events-none mix-blend-screen" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[90vw] h-[90vw] bg-teal-900/40 rounded-full blur-[100px] animate-float-slower-reverse pointer-events-none mix-blend-screen" />
         
         {/* Central Glow - Soft Green */}
@@ -106,15 +106,15 @@ const FamilyPage = ({ family }: { family: FamilyMember[] }) => (
         
         <div className="flex flex-col items-center gap-5 w-full max-w-lg">
              {family.map((member, index) => (
-                 <div key={member.id} className="relative flex items-center gap-4 bg-white p-3 rounded-xl shadow-sm border border-stone-200 w-full transition-transform animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${index * 200}ms` }}>
+                 <div key={member.id} className="relative flex items-center gap-4 bg-white p-3 rounded-xl shadow-sm border border-slate-200 w-full transition-transform animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: `${index * 200}ms` }}>
                       {index !== family.length - 1 && (
-                          <div className="absolute left-[2.75rem] top-16 h-8 w-0.5 bg-stone-300 -z-10" />
+                          <div className="absolute left-[2.75rem] top-16 h-8 w-0.5 bg-slate-300 -z-10" />
                       )}
                       
                       <div className="relative flex-shrink-0">
                         <img 
                             src={member.imageUrl || `https://ui-avatars.com/api/?name=${member.name}`} 
-                            className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-md bg-stone-100" 
+                            className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-md bg-slate-100" 
                             alt={member.name}
                         />
                       </div>
@@ -141,10 +141,10 @@ const MemoryPage = ({ memory, family }: { memory: Memory, family: FamilyMember[]
         }
         if (memory.mediaType === 'audio') {
             return (
-                <div className="w-full p-8 bg-amber-50 rounded-xl border border-amber-200 flex flex-col items-center justify-center gap-4 shadow-inner mb-6 relative overflow-hidden animate-in zoom-in-95 duration-1000">
-                    <div className="absolute inset-0 bg-amber-100/30 pattern-grid-lg opacity-20"></div>
+                <div className="w-full p-8 bg-teal-50 rounded-xl border border-teal-200 flex flex-col items-center justify-center gap-4 shadow-inner mb-6 relative overflow-hidden animate-in zoom-in-95 duration-1000">
+                    <div className="absolute inset-0 bg-teal-100/30 pattern-grid-lg opacity-20"></div>
                     <div className="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center animate-spin-slow border-4 border-slate-700 shadow-xl relative z-10">
-                         <div className="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center border-2 border-amber-300">
+                         <div className="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center border-2 border-teal-300">
                              <div className="w-1.5 h-1.5 bg-black rounded-full"></div>
                          </div>
                     </div>
@@ -171,7 +171,7 @@ const MemoryPage = ({ memory, family }: { memory: Memory, family: FamilyMember[]
                 
                 {/* Caption */}
                 <div className="w-full text-center mt-2 mb-6">
-                    <div className="inline-flex items-center gap-2 text-amber-700 font-bold text-[10px] uppercase mb-1.5 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-100">
+                    <div className="inline-flex items-center gap-2 text-teal-700 font-bold text-[10px] uppercase mb-1.5 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-100">
                         {memory.mediaType === 'video' ? <Video size={8} /> : memory.mediaType === 'audio' ? <Mic size={8} /> : <Heart size={8} fill="currentColor" />} 
                         {memory.timestamp.getFullYear()}
                     </div>
@@ -182,8 +182,8 @@ const MemoryPage = ({ memory, family }: { memory: Memory, family: FamilyMember[]
 
                 {/* Comments Section - COMPACT DESIGN */}
                 {memory.comments && memory.comments.length > 0 && (
-                    <div className="w-full max-w-lg bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-stone-200/60 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500 mb-6">
-                        <h4 className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-3 text-center flex items-center justify-center gap-2">
+                    <div className="w-full max-w-lg bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-slate-200/60 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500 mb-6">
+                        <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 text-center flex items-center justify-center gap-2">
                             <Heart size={10} className="text-pink-400" fill="currentColor" /> Family Notes
                         </h4>
                         <div className="space-y-2">
@@ -206,9 +206,9 @@ const MemoryPage = ({ memory, family }: { memory: Memory, family: FamilyMember[]
                                                 <img src={avatar || ''} className="w-5 h-5 rounded-full object-cover border border-white shadow-sm" alt={name} />
                                             )}
                                         </div>
-                                        <div className="bg-white p-2 px-3 rounded-xl rounded-tl-none shadow-sm border border-stone-100 flex-1">
-                                            <p className="text-[10px] font-bold text-stone-500 mb-0">{name}</p>
-                                            <p className="text-xs text-stone-800 font-serif leading-snug">{comment.text}</p>
+                                        <div className="bg-white p-2 px-3 rounded-xl rounded-tl-none shadow-sm border border-slate-100 flex-1">
+                                            <p className="text-[10px] font-bold text-slate-500 mb-0">{name}</p>
+                                            <p className="text-xs text-slate-800 font-serif leading-snug">{comment.text}</p>
                                         </div>
                                     </div>
                                 );
@@ -796,7 +796,7 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
   // Helper to render reminder icon/color based on type
   const renderReminderCard = (r: Reminder) => {
       let icon = <Activity size={16} />;
-      let colorClass = "bg-amber-100 text-amber-700 border-amber-400 bg-[#fffbeb]"; // Default appointment
+      let colorClass = "bg-teal-100 text-teal-700 border-teal-400 bg-[#f0fdfa]"; // Default appointment
       
       if (r.type === 'medication') {
           icon = <Pill size={16} />;
@@ -877,30 +877,30 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
 
   // --- MAIN BOOK RENDER (Only shows when introStep === 'DONE') ---
   return (
-    <div className="h-screen w-screen bg-stone-100 flex overflow-hidden relative animate-in fade-in duration-2000 gap-6">
+    <div className="h-screen w-screen bg-slate-100 flex overflow-hidden relative animate-in fade-in duration-2000 gap-6">
         
         {/* --- LEFT SIDEBAR (UPDATED: Reduced width) --- */}
-        <div className="w-64 bg-[#F2EFE9] border-r border-stone-300 text-stone-800 flex flex-col shadow-2xl z-20 relative flex-shrink-0 hidden lg:flex">
+        <div className="w-64 bg-[#F2EFE9] border-r border-slate-300 text-slate-800 flex flex-col shadow-2xl z-20 relative flex-shrink-0 hidden lg:flex">
              {/* Header with Date/Time */}
-            <div className="p-5 border-b border-stone-300/50">
-                <div className="text-3xl font-light font-serif tracking-tighter opacity-90 text-stone-800">
+            <div className="p-5 border-b border-slate-300/50">
+                <div className="text-3xl font-light font-serif tracking-tighter opacity-90 text-slate-800">
                     {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
-                <div className="text-stone-500 text-xs font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
+                <div className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
                     <Calendar size={10} />
                     {currentTime.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}
                 </div>
             </div>
 
             {/* Location & Safety - Leaner Design with Map & Panic Button */}
-            <div className="p-5 border-b border-stone-300/50 flex-1">
+            <div className="p-5 border-b border-slate-300/50 flex-1">
                 <div className="flex items-center gap-2 mb-4 opacity-80">
                     <ShieldCheck size={16} className="text-teal-600" />
-                    <span className="font-bold text-xs tracking-widest uppercase text-stone-500">Safety Monitor</span>
+                    <span className="font-bold text-xs tracking-widest uppercase text-slate-500">Safety Monitor</span>
                 </div>
                 
                 {/* Visual Map Widget - UPDATED TO GOOGLE MAP */}
-                <div className="rounded-xl overflow-hidden border border-stone-200 bg-white shadow-sm mb-4 relative group">
+                <div className="rounded-xl overflow-hidden border border-slate-200 bg-white shadow-sm mb-4 relative group">
                     <div className="h-40 bg-slate-200 relative overflow-hidden">
                         <iframe 
                             width="100%" 
@@ -918,35 +918,35 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
                     </div>
                     <div className="p-3 bg-white flex justify-between items-center">
                         <div>
-                            <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Status</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status</p>
                             <p className="text-xs font-bold text-teal-700 flex items-center gap-1">
                                 <ShieldCheck size={12} /> Safe at Home
                             </p>
                         </div>
                         <div className="text-right">
-                             <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Distance</p>
-                             <p className="text-xs font-bold text-stone-700">0.0 mi</p>
+                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Distance</p>
+                             <p className="text-xs font-bold text-slate-700">0.0 mi</p>
                         </div>
                     </div>
                 </div>
 
                 <div className="space-y-4 mb-8">
                     <div className="group">
-                         <div className="flex items-center gap-2 text-stone-400 mb-1">
+                         <div className="flex items-center gap-2 text-slate-400 mb-1">
                             <MapPin size={12} />
                             <span className="text-[10px] font-bold uppercase tracking-wider">Current Location</span>
                          </div>
-                         <div className="text-sm font-serif text-stone-700 leading-tight">
+                         <div className="text-sm font-serif text-slate-700 leading-tight">
                             {memoryCircle.profile.locationDescription}
                          </div>
                     </div>
 
                     <div className="group">
-                         <div className="flex items-center gap-2 text-stone-400 mb-1">
+                         <div className="flex items-center gap-2 text-slate-400 mb-1">
                             <User size={12} />
                             <span className="text-[10px] font-bold uppercase tracking-wider">Caregiver</span>
                          </div>
-                         <div className="text-sm font-serif text-stone-700 leading-tight">
+                         <div className="text-sm font-serif text-slate-700 leading-tight">
                             {memoryCircle.profile.nurseName}
                          </div>
                     </div>
@@ -965,16 +965,16 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
             </div>
 
             {/* Bottom Controls */}
-            <div className="p-5 bg-stone-200/50 backdrop-blur-sm">
-                <div className="bg-white/50 p-3 rounded-lg border border-stone-200 mb-4 flex items-center gap-3">
+            <div className="p-5 bg-slate-200/50 backdrop-blur-sm">
+                <div className="bg-white/50 p-3 rounded-lg border border-slate-200 mb-4 flex items-center gap-3">
                      {isPaused ? (
                          <>
-                            <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 border border-amber-200">
+                            <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 border border-teal-200">
                                 <PauseCircle size={16} />
                             </div>
                             <div>
-                                <p className="text-[10px] text-amber-600 font-bold uppercase">Status</p>
-                                <p className="text-xs font-medium text-stone-700">Paused</p>
+                                <p className="text-[10px] text-teal-600 font-bold uppercase">Status</p>
+                                <p className="text-xs font-medium text-slate-700">Paused</p>
                             </div>
                          </>
                      ) : (
@@ -984,13 +984,13 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
                             </div>
                             <div>
                                 <p className="text-[10px] text-teal-600 font-bold uppercase">Status</p>
-                                <p className="text-xs font-medium text-stone-700">Narrating</p>
+                                <p className="text-xs font-medium text-slate-700">Narrating</p>
                             </div>
                          </>
                      )}
                 </div>
 
-                <button onClick={onExit} className="w-full py-3 rounded-lg border border-stone-300 text-stone-500 hover:bg-stone-200 hover:text-stone-800 transition-all text-xs font-bold flex items-center justify-center gap-2 group">
+                <button onClick={onExit} className="w-full py-3 rounded-lg border border-slate-300 text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-all text-xs font-bold flex items-center justify-center gap-2 group">
                     Exit Patient Mode <ArrowRightIcon className="w-3 h-3 group-hover:translate-x-1 transition-transform opacity-50 group-hover:opacity-100" />
                 </button>
             </div>
@@ -1032,10 +1032,10 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
                     <ChevronRight size={32} />
                 </button>
 
-                <div className="absolute inset-0 bg-stone-200 rounded-lg md:rounded-3xl shadow-2xl transform translate-z-[-10px] border border-stone-300" />
+                <div className="absolute inset-0 bg-slate-200 rounded-lg md:rounded-3xl shadow-2xl transform translate-z-[-10px] border border-slate-300" />
                 
                 {/* Left Page (Hidden on Mobile) */}
-                <div className="hidden md:block flex-1 bg-[#fdfbf7] rounded-l-3xl shadow-inner relative overflow-hidden origin-right border-r border-stone-200">
+                <div className="hidden md:block flex-1 bg-[#fdfbf7] rounded-l-3xl shadow-inner relative overflow-hidden origin-right border-r border-slate-200">
                      {renderPageContent(pages[pageIndex])}
                      <PageNumber num={pageIndex + 1} />
                 </div>
@@ -1088,7 +1088,7 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
                 <div className="absolute inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300">
                     <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full m-4 relative overflow-hidden z-50">
                          {/* Background Animation */}
-                         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-teal-400 via-emerald-500 to-teal-400 animate-pulse"></div>
+                         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-teal-400 via-teal-500 to-teal-400 animate-pulse"></div>
                          
                          {/* Existing Pause UI */}
                          <div className="flex flex-col items-center text-center">
@@ -1138,10 +1138,10 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
         </div>
 
         {/* --- RIGHT SIDEBAR: DAILY REMINDERS (Reduced Width) --- */}
-        <div className="w-64 bg-[#F2EFE9] border-l border-stone-300 text-stone-800 flex flex-col shadow-2xl z-20 relative flex-shrink-0 hidden xl:flex">
+        <div className="w-64 bg-[#F2EFE9] border-l border-slate-300 text-slate-800 flex flex-col shadow-2xl z-20 relative flex-shrink-0 hidden xl:flex">
              {/* Daily Reminders Header */}
-            <div className="p-5 border-b border-stone-300/50 flex flex-col bg-white/40">
-                <div className="flex items-center justify-between mb-4 opacity-80 text-stone-500">
+            <div className="p-5 border-b border-slate-300/50 flex flex-col bg-white/40">
+                <div className="flex items-center justify-between mb-4 opacity-80 text-slate-500">
                     <div className="flex items-center gap-2">
                         <Clock size={16} className="text-teal-600" />
                         <span className="font-bold text-xs tracking-widest uppercase">Daily Reminders</span>
@@ -1165,14 +1165,14 @@ const PatientMode: React.FC<PatientModeProps> = ({ memoryCircle, introAudioUrl, 
             <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-4">
                  {memoryCircle.reminders.map(r => renderReminderCard(r))}
                  {memoryCircle.reminders.length === 0 && (
-                     <div className="text-center text-stone-400 italic text-sm py-12 flex flex-col items-center">
+                     <div className="text-center text-slate-400 italic text-sm py-12 flex flex-col items-center">
                          <Bell size={32} className="opacity-20 mb-2"/>
                          No reminders set for today.
                      </div>
                  )}
             </div>
             
-            <div className="p-4 text-center text-[10px] text-stone-400 border-t border-stone-300/30">
+            <div className="p-4 text-center text-[10px] text-slate-400 border-t border-slate-300/30">
                 Tap any card to hear it spoken aloud.
             </div>
         </div>

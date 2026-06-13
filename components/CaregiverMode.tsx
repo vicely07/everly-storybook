@@ -446,9 +446,9 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
           </div>
       );
       if (m.mediaType === 'audio') return (
-          <div className="w-full h-full bg-amber-100 flex items-center justify-center relative overflow-hidden">
-               <div className="absolute inset-0 bg-amber-200/50 pattern-grid-lg opacity-30"></div>
-               <Music className="text-amber-600 relative z-10" size={40} />
+          <div className="w-full h-full bg-teal-100 flex items-center justify-center relative overflow-hidden">
+               <div className="absolute inset-0 bg-teal-200/50 pattern-grid-lg opacity-30"></div>
+               <Music className="text-teal-600 relative z-10" size={40} />
           </div>
       );
       return <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400">?</div>;
@@ -505,9 +505,9 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
                        {m.mediaType === 'image' && <img src={m.imageUrl} className="max-w-full max-h-[500px] object-contain shadow-2xl rounded-lg" />}
                        {m.mediaType === 'video' && <video src={m.imageUrl} controls className="max-w-full max-h-[500px] rounded-lg shadow-2xl" />}
                        {m.mediaType === 'audio' && (
-                           <div className="w-full h-full flex flex-col items-center justify-center bg-amber-50 rounded-xl p-8">
-                               <div className="w-32 h-32 bg-amber-100 rounded-full flex items-center justify-center mb-6 animate-pulse">
-                                   <Music size={48} className="text-amber-600" />
+                           <div className="w-full h-full flex flex-col items-center justify-center bg-teal-50 rounded-xl p-8">
+                               <div className="w-32 h-32 bg-teal-100 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                                   <Music size={48} className="text-teal-600" />
                                </div>
                                <audio src={m.imageUrl} controls className="w-full max-w-sm shadow-sm" />
                            </div>
@@ -719,22 +719,22 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
       };
 
   return (
-    <div className="min-h-screen bg-stone-50 p-4 md:p-8 flex flex-col font-sans relative">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8 flex flex-col font-sans relative">
       
       {/* HEADER */}
       <div className="max-w-7xl mx-auto w-full mb-8 relative z-20 flex justify-between items-center">
           <div className="flex items-center gap-4">
-              <button onClick={onExit} className="p-3 bg-white hover:bg-stone-100 rounded-full transition-all shadow-sm border border-stone-200 text-stone-600 hover:scale-105 active:scale-95">
+              <button onClick={onExit} className="p-3 bg-white hover:bg-slate-100 rounded-full transition-all shadow-sm border border-slate-200 text-slate-600 hover:scale-105 active:scale-95">
                   <ArrowRight className="rotate-180" size={22} />
               </button>
-              <h1 className="text-3xl font-bold text-stone-800 tracking-tight">Story Studio</h1>
+              <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Story Studio</h1>
           </div>
           
           {/* MANUAL SAVE BUTTON */}
           <button 
              onClick={() => handleSaveProgress()}
              disabled={isSaving}
-             className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-stone-50 border border-stone-200 rounded-xl text-stone-600 font-bold text-sm shadow-sm transition-all"
+             className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-slate-600 font-bold text-sm shadow-sm transition-all"
           >
               {isSaving ? <Loader2 size={16} className="animate-spin text-teal-600"/> : <Save size={16} />}
               {isSaving ? "Saving..." : "Save Progress"}
@@ -743,7 +743,7 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
 
       {/* CENTERED PROGRESS BAR - UPDATED STEPS */}
       <div className="w-full mb-12 flex justify-center">
-          <div className="flex items-center justify-center gap-3 bg-white p-3 rounded-full shadow-xl border border-stone-100/50 ring-1 ring-stone-900/5 mx-auto max-w-fit animate-in fade-in slide-in-from-top-4 duration-700">
+          <div className="flex items-center justify-center gap-3 bg-white p-3 rounded-full shadow-xl border border-slate-100/50 ring-1 ring-slate-900/5 mx-auto max-w-fit animate-in fade-in slide-in-from-top-4 duration-700">
               {(['PROFILE', 'TEAM', 'MEMORIES', 'REMINDERS', 'PUBLISH'] as const).map((s, i) => (
                   <div 
                     key={s}
@@ -752,13 +752,13 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
                         px-8 py-4 rounded-full transition-all duration-500 flex items-center gap-3 cursor-pointer
                         ${step === s 
                             ? 'bg-teal-600 text-white shadow-lg scale-105 font-bold ring-2 ring-teal-200 ring-offset-2' 
-                            : 'text-stone-400 font-medium hover:bg-stone-50'
+                            : 'text-slate-400 font-medium hover:bg-slate-50'
                         }
                     `}
                   >
                       <div className={`
                           w-8 h-8 rounded-full flex items-center justify-center text-sm font-black
-                          ${step === s ? 'bg-white/20 text-white' : 'bg-stone-200 text-stone-500'}
+                          ${step === s ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-500'}
                       `}>
                           {i + 1}
                       </div>
@@ -774,7 +774,7 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
           
           {/* STEP 1: PROFILE */}
           {step === 'PROFILE' && (
-              <div className="max-w-2xl mx-auto w-full bg-white p-8 rounded-3xl shadow-xl border border-stone-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="max-w-2xl mx-auto w-full bg-white p-8 rounded-3xl shadow-xl border border-slate-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
                    <div className="text-center mb-8">
                        <h2 className="text-2xl font-bold text-slate-800">Who is this book for?</h2>
                        <p className="text-slate-500">Let's set up the profile for the patient.</p>
@@ -860,7 +860,7 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
                   <div className="grid md:grid-cols-2 gap-6">
                       
                       {/* Left: Share Card */}
-                      <div className="bg-white p-8 rounded-3xl shadow-xl border border-stone-100 flex flex-col items-center text-center h-full">
+                      <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 flex flex-col items-center text-center h-full">
                            <div className="w-16 h-16 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center mb-6">
                                <QrCode size={32} />
                            </div>
@@ -886,7 +886,7 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
                       </div>
 
                       {/* Right: Family Status List */}
-                      <div className="bg-white p-8 rounded-3xl shadow-xl border border-stone-100 flex flex-col h-full">
+                      <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 flex flex-col h-full">
                            <div className="flex justify-between items-center mb-6">
                                <div>
                                    <h2 className="text-xl font-bold text-slate-800">Family Circle</h2>
@@ -904,14 +904,14 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
                            <div className="flex-1 overflow-y-auto custom-scrollbar space-y-3 max-h-[400px]">
                                 {/* 1. COMPLETED Members */}
                                 {memoryCircle.familyMembers.filter(m => m.status === 'completed' || (!m.status && (m as any).hasJoined)).map((fm) => (
-                                    <div key={fm.id} className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-green-200 transition-colors">
-                                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500"></div>
+                                    <div key={fm.id} className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-teal-200 transition-colors">
+                                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-teal-500"></div>
                                          <img src={fm.imageUrl || `https://ui-avatars.com/api/?name=${fm.name}`} className="w-10 h-10 rounded-full bg-slate-100 object-cover border border-slate-200" />
                                          <div className="flex-1 min-w-0">
                                              <h4 className="font-bold text-slate-800 text-sm truncate">{fm.name}</h4>
                                              <p className="text-xs text-slate-500 truncate">{fm.relation}</p>
                                          </div>
-                                         <div className="flex items-center gap-1.5 px-2 py-1 bg-green-100 text-green-700 rounded-lg text-[10px] font-bold">
+                                         <div className="flex items-center gap-1.5 px-2 py-1 bg-teal-100 text-teal-700 rounded-lg text-[10px] font-bold">
                                              <CheckCircle size={10} /> Completed
                                          </div>
                                     </div>
@@ -919,14 +919,14 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
 
                                 {/* 2. IN PROGRESS Members (Current User) */}
                                 {memoryCircle.familyMembers.filter(m => m.status === 'in_progress').map((fm) => (
-                                    <div key={fm.id} className="flex items-center gap-3 p-3 bg-orange-50/50 rounded-xl border border-orange-200 shadow-sm relative overflow-hidden">
-                                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></div>
+                                    <div key={fm.id} className="flex items-center gap-3 p-3 bg-teal-50/50 rounded-xl border border-teal-200 shadow-sm relative overflow-hidden">
+                                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-teal-500"></div>
                                          
                                          {/* UPDATED: Check for imageUrl and render it if available */}
                                          {fm.imageUrl && !fm.imageUrl.includes("ui-avatars") ? (
-                                             <img src={fm.imageUrl} className="w-10 h-10 rounded-full bg-orange-100 object-cover border border-orange-200" alt={fm.name} />
+                                             <img src={fm.imageUrl} className="w-10 h-10 rounded-full bg-teal-100 object-cover border border-teal-200" alt={fm.name} />
                                          ) : (
-                                             <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 border border-orange-200">
+                                             <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 border border-teal-200">
                                                  <User size={20} />
                                              </div>
                                          )}
@@ -935,7 +935,7 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
                                              <h4 className="font-bold text-slate-800 text-sm truncate">{fm.name} (You)</h4>
                                              <p className="text-xs text-slate-500 truncate">{fm.relation}</p>
                                          </div>
-                                         <div className="flex items-center gap-1.5 px-2 py-1 bg-orange-100 text-orange-700 rounded-lg text-[10px] font-bold">
+                                         <div className="flex items-center gap-1.5 px-2 py-1 bg-teal-100 text-teal-700 rounded-lg text-[10px] font-bold">
                                              <Loader2 size={10} className="animate-spin" /> In Progress
                                          </div>
                                     </div>
@@ -1158,7 +1158,7 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
                                 <div className="flex flex-wrap gap-2">
                                     {[
                                         { type: 'medication', label: 'Medication', icon: <Pill size={14}/>, color: 'text-rose-600 bg-rose-50 border-rose-200' },
-                                        { type: 'appointment', label: 'Appointment', icon: <Calendar size={14}/>, color: 'text-amber-600 bg-amber-50 border-amber-200' },
+                                        { type: 'appointment', label: 'Appointment', icon: <Calendar size={14}/>, color: 'text-teal-600 bg-teal-50 border-teal-200' },
                                         { type: 'hydration', label: 'Hydration', icon: <GlassWater size={14}/>, color: 'text-sky-600 bg-sky-50 border-sky-200' },
                                         { type: 'general', label: 'General', icon: <Activity size={14}/>, color: 'text-violet-600 bg-violet-50 border-violet-200' }
                                     ].map((opt) => (
@@ -1213,7 +1213,7 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
                            let colorClass = "bg-violet-50 border-violet-200 text-violet-700";
                            let icon = <Activity size={18} />;
                            if (r.type === 'medication') { colorClass = "bg-rose-50 border-rose-200 text-rose-700"; icon = <Pill size={18} />; }
-                           if (r.type === 'appointment') { colorClass = "bg-amber-50 border-amber-200 text-amber-700"; icon = <Calendar size={18} />; }
+                           if (r.type === 'appointment') { colorClass = "bg-teal-50 border-teal-200 text-teal-700"; icon = <Calendar size={18} />; }
                            if (r.type === 'hydration') { colorClass = "bg-sky-50 border-sky-200 text-sky-700"; icon = <GlassWater size={18} />; }
 
                            return (
@@ -1244,7 +1244,7 @@ export default function CaregiverMode({ memoryCircle, updateMemoryCircle, onSetu
           {/* STEP 5: PUBLISH - FIXED VISIBILITY */}
           {step === 'PUBLISH' && (
                <div className="max-w-2xl mx-auto w-full text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-                   <div className="bg-white p-10 rounded-3xl shadow-xl border border-stone-100 mb-8">
+                   <div className="bg-white p-10 rounded-3xl shadow-xl border border-slate-100 mb-8">
                        <EverlyBird size={100} className="mx-auto mb-6" />
                        <h2 className="text-3xl font-bold text-slate-800 mb-4">Ready to Publish?</h2>
                        <p className="text-slate-500 mb-8 text-lg">

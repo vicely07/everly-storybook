@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Modality, LiveServerMessage } from "@google/genai";
 import { MemoryCircle, PatientProfile, BookNarrative } from "../types";
 
 // Helper to get API Key from storage
@@ -80,8 +80,8 @@ export const transcribeAudio = async (audioBlob: Blob): Promise<string> => {
     if (!apiKey) return "";
 
     const ai = new GoogleGenAI({ apiKey });
-    // Updated to Gemini 3 Flash as requested
-    const model = 'gemini-3-flash-preview';
+    // Updated to Gemini 3.5 Flash as requested
+    const model = 'gemini-3.5-flash';
 
     try {
         const audioPart = await blobToPart(audioBlob);
@@ -107,7 +107,7 @@ export const generateSpeech = async (text: string): Promise<string | null> => {
     if (!apiKey) return null;
 
     const ai = new GoogleGenAI({ apiKey });
-    const model = 'gemini-2.5-flash-preview-tts';
+    const model = 'gemini-3.1-flash-tts-preview';
 
     try {
         const response = await ai.models.generateContent({
@@ -161,7 +161,7 @@ export const generateCaptionFromDetails = async (
     if (!apiKey) return "API Key missing. Please restart and provide a key.";
 
     const ai = new GoogleGenAI({ apiKey });
-    const model = 'gemini-3-flash-preview';
+    const model = 'gemini-3.5-flash';
 
     try {
         const filePart = await fileToPart(file);
@@ -203,8 +203,8 @@ export const compileBookNarrative = async (circle: MemoryCircle): Promise<BookNa
   }
 
   const ai = new GoogleGenAI({ apiKey });
-  const proModel = 'gemini-3-flash-preview'; 
-  const imageModel = 'gemini-3-flash-image';
+  const proModel = 'gemini-3.1-pro-preview'; 
+  const imageModel = 'gemini-2.5-flash-image';
 
   const familyContext = circle.familyMembers.map(m => `${m.name} (${m.relation}): ${m.note}`).join('; ');
   const memoryContext = circle.memories.map(m => `[${m.timestamp.getFullYear()}] ${m.text}`).join('; ');
@@ -295,7 +295,7 @@ export const compileBookNarrative = async (circle: MemoryCircle): Promise<BookNa
 export const createCaregiverChat = (circle: MemoryCircle) => {
     const apiKey = getApiKey();
     const ai = new GoogleGenAI({ apiKey });
-    const model = 'gemini-3-flash-preview';
+    const model = 'gemini-3.5-flash';
 
     const patientName = circle.profile.preferredName || circle.profile.firstName;
 
@@ -336,7 +336,7 @@ export const generateSimpleTTS = async (text: string): Promise<string | null> =>
     
     const ai = new GoogleGenAI({ apiKey });
     // Note: TTS currently uses gemini-2.5-flash-preview-tts as per guidelines
-    const modelId = 'gemini-2.5-flash-preview-tts';
+    const modelId = 'gemini-3.1-flash-tts-preview';
 
     const makeRequest = async (attempt: number = 1): Promise<string | null> => {
         try {
@@ -344,9 +344,9 @@ export const generateSimpleTTS = async (text: string): Promise<string | null> =>
                 model: modelId,
                 contents: [{ parts: [{ text: cleanText }] }],
                 config: {
-                    responseModalities: ['AUDIO'], 
+                    responseModalities: [Modality.AUDIO], 
                     speechConfig: {
-                        voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Aoede' } }
+                        voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } }
                     }
                 }
             });
@@ -401,7 +401,7 @@ export const connectToLiveSession = async (
 
   const ai = new GoogleGenAI({ apiKey });
   // Note: Live API currently uses gemini-2.5-flash-native-audio-preview-12-2025 as per guidelines
-  const model = 'gemini-2.5-flash-native-audio-preview-12-2025';
+  const model = 'gemini-3.1-flash-live-preview';
 
   const patientName = circle.profile.preferredName || circle.profile.firstName;
 
@@ -420,8 +420,8 @@ export const connectToLiveSession = async (
 
   const systemInstruction = customSystemInstruction || defaultInstruction;
 
-  const inputAudioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
-  const outputAudioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
+  const inputAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
+  const outputAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
   
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const inputSource = inputAudioContext.createMediaStreamSource(stream);
@@ -441,7 +441,7 @@ export const connectToLiveSession = async (
           systemInstruction,
           responseModalities: [Modality.AUDIO],
           speechConfig: {
-              voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Aoede' } }
+              voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } }
           },
           inputAudioTranscription: {},
           outputAudioTranscription: {},

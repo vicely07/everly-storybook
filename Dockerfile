@@ -1,14 +1,15 @@
-# Stage 1: Build the Vite/React application
-FROM node:20-alpine AS builder
+# Build stage
+FROM node:20-alpine as build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 
-# Stage 2: Serve the application with Nginx
+# Production stage
 FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 8080
+RUN sed -i 's/listen  *80;/listen 8080;/g' /etc/nginx/conf.d/default.conf
+RUN sed -i '/location \/ {/a \        try_files $uri $uri/ /index.html;' /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]
